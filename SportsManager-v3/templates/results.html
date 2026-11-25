@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Final Standings</h1>
+        <p>All matches completed!</p>
+        <ul>
+            {% for result in results %}
+                <li>{{ result }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Match Recap</h2>
+        <ul>
+            {% for m in matches %}
+                <li>
+                    <span>{{ m['player1'] }} vs {{ m['player2'] }}</span>
+                    <span class="status-tag">
+                        {% if m['winner'] == 'DRAW' %}Draw{% else %}{{ m['winner'] }}{% endif %}
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <form method="POST" action="/rematch">
+            <button type="submit">Play Rematch (Keep Players)</button>
+        </form>
+        <form method="GET" action="/">
+            <button type="submit" class="btn-secondary">Back to Home</button>
+        </form>
+        <form method="POST" action="/reset">
+            <button type="submit" class="btn-secondary">Reset All Players</button>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2026 HEROSCIENCE Sports Manager. All rights reserved.</p>
+    </footer>
+</body>
+</html>

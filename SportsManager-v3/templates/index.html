@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Sports Manager</h1>
+        <p>Add players to generate matchups and track winners match by match.</p>
+
+        {% if error %}
+            <div class="error-box">{{ error }}</div>
+        {% endif %}
+        
+        <form method="POST">
+            <label for="name">Player Name:</label>
+            <input type="text" id="name" name="name" maxlength="30" placeholder="Enter player name..." required>
+            <button type="submit">Add Player</button>
+        </form>
+
+        {% if players %}
+            <form method="POST" action="/delete">
+                <p>Registered Players ({{ players|length }}):</p>
+                <ul>
+                    {% for player in players %}
+                        <li>
+                            <span>{{ player }}</span>
+                            <button type="submit" class="btn-small" formaction="/delete/{{ player }}">Delete</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button type="submit" formaction="/match">
+                    {% if has_active_matches %}View / Resume Matches{% else %}Generate Matches{% endif %}
+                </button>
+                <button type="submit" class="btn-secondary">Delete All</button>
+            </form>
+        {% endif %}
+    </div>
+    <footer>
+        <p>&copy; 2026 HEROSCIENCE Sports Manager. All rights reserved.</p>
+    </footer>
+</body>
+</html>
