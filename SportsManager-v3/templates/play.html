@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match {{ current_number }} of {{ total_matches }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Select Winner</h1>
+        <div class="progress-badge">Match {{ current_number }} of {{ total_matches }}</div>
+
+        <div class="matchup-card">
+            <div class="fighter-name">{{ match['player1'] }}</div>
+            <div class="versus-label">VS</div>
+            <div class="fighter-name">{{ match['player2'] }}</div>
+        </div>
+
+        <form method="POST" action="/record/{{ match['id'] }}">
+            <button type="submit" name="winner" value="{{ match['player1'] }}">
+                {{ match['player1'] }} Won (+1 pt)
+            </button>
+            <button type="submit" name="winner" value="{{ match['player2'] }}">
+                {{ match['player2'] }} Won (+1 pt)
+            </button>
+            <button type="submit" name="winner" value="DRAW" class="btn-draw">
+                Draw (+0.5 pt each)
+            </button>
+        </form>
+
+        {% if can_undo %}
+            <form method="POST" action="/undo">
+                <button type="submit" class="btn-secondary">Undo Previous Match</button>
+            </form>
+        {% endif %}
+
+        <form method="GET" action="/match">
+            <button type="submit" class="btn-secondary">View Full Schedule</button>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2026 HEROSCIENCE Sports Manager. All rights reserved.</p>
+    </footer>
+</body>
+</html>
